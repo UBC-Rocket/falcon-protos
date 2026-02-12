@@ -41,4 +41,12 @@ message TelemetryPacket {
 
     // Reference
     float ground_altitude = 14;
+
+    // GPS data
+    float gps_latitude = 15;
+    float gps_longitude = 16;
+    float gps_altitude = 17;
+    float gps_speed = 18;
+    uint32 gps_sats = 19;
+    uint32 gps_fix = 20;
 }
