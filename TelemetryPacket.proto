@@ -65,4 +65,8 @@ message TelemetryPacket {
     float gps_speed = 18;
     uint32 gps_sats = 19;
     uint32 gps_fix = 20;
+
+    // RunCam Status
+    bool runcam_power = 21;
+    bool runcam_recording = 34;
 }
