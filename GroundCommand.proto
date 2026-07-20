@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2024 UBC Rocket
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+ 
+ syntax = "proto3";
+
+// Assumes EEPROM will always be written after a reboot (AT&W, ATZ)
+message RfdConfig {                 // maps to SiK/RFD900x S-registers via AT commands
+  optional uint32 min_freq_khz   = 1;   // S8
+  optional uint32 max_freq_khz   = 2;   // S9
+  optional uint32 net_id         = 3;   // S3
+  optional uint32 tx_power_dbm   = 4;   // S4
+  optional uint32 air_speed_kbps = 5;   // S2
+  optional uint32 num_channels   = 6;   // S10
+}
+
+message CameraControl {                     // UPLINKED to the rocket over the RFD900x link
+  optional bool vtx_runcam_power    = 1;    // power on/off the onboard VTX and RunCam
+  optional bool camera_recording    = 2;    // start/stop RunCam recording
+}                                           // fields optional so a command can change one thing at a time
+
+message GroundCommand {
+  uint32 command_id   = 1;
+  uint32 issued_at_ms = 2;
+  string operator     = 3;          // free-text operator tag from admin UI
+  oneof command {
+    RfdConfig rfd_config = 4;        // ground-local: applied to the ground-station modem
+    CameraControl camera = 5;        // uplink: forwarded over RF to FALCON
+  }
+}

@@ -1,0 +1,7 @@
+# nanopb field options for GroundCommand.proto
+#
+# max_size INCLUDES the null terminator, so N gives N-1 usable chars.
+# Bounding the only variable-length field (operator) lets nanopb:
+#   - store it as a fixed char[] instead of a pb_callback_t, and
+#   - generate the GroundCommand_size macro for sizing RX buffers.
+GroundCommand.operator   max_size:32
